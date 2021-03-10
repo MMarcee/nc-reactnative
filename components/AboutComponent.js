@@ -7,7 +7,7 @@ import { PARTNERS } from '../shared/partners';
 function Mission() {
     return (
         <Card>
-            <Text>
+            <Text style={{margin: 10}}>
             We present a curated database of the best campsites in the vast woods and backcountry
             of the World Wide Web Wilderness. We increase access to adventure for the public while promoting 
             safe and respectful use of resources. The expert wilderness trekkers on our staff personally verify 
@@ -31,30 +31,27 @@ class About extends Component {
         title: 'About Us'
 }
 
-Render() {
-
-//Task 3 Render Partner Function
-function RenderPartner({item}) {
-    if (item) {
+render() {
+    const { navigate } = this.props.navigation;
+    const renderPartner = ({item}) => {
         return (
             <ListItem
-                    title={item.name}
-                    subtitle={item.description}
-                    leftAvatar={{ source: require('./images/bootstrap-logo.png')}}
-                />
+                title={item.name}
+                subtitle={item.description}
+                onPress={() => navigate('CampsiteInfo', { campsiteId: item.id })}
+                leftAvatar={{ source: require('./images/react-lake.jpg')}}
+            />
         );
-    }
-    return <View />;
-}
-//End Render Partner Function
+    };
+//End Render Partner Function:
   return (
       <ScrollView>
           <Mission />//Mission Component
           <Card title={"Community Partners"}>
             <FlatList
                 data={this.state.partners}
-                renderItem={renderAboutItem}
-                keyExtractor={item => item.id}
+                renderItem={renderPartner}
+                keyExtractor={item => item.id.toString()}
             />
           </Card>
 
@@ -64,4 +61,5 @@ function RenderPartner({item}) {
 }
 
 export default About;
+
 
