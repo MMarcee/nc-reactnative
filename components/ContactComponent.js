@@ -9,7 +9,7 @@ class Contact extends Component {
           title: 'Contact Us'
       };
        
-Render() {
+render() {
     return (
         <ScrollView>
             <Card title='Contact Information' wrapperStyle={{margin: 20}}>

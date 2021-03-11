@@ -1,12 +1,19 @@
 import React, { Component } from 'react';
-import { Text, ScrollView } from 'react-native';
-import { PARTNERS } from '../shared/partners';
+import { ScrollView, Text, FlatList } from 'react-native';
+import { Card, ListItem } from 'react-native-elements';
+import { connect } from 'react-redux';
+import { baseUrl } from '../shared/baseUrl';
 
 
-//Task 3 Function:
+const mapStateToProps = state => {
+    return {
+        partners: state.partners
+    };
+};
+
 function Mission() {
     return (
-        <Card>
+        <Card title='Our Mission'>
             <Text style={{margin: 10}}>
             We present a curated database of the best campsites in the vast woods and backcountry
             of the World Wide Web Wilderness. We increase access to adventure for the public while promoting 
@@ -17,49 +24,37 @@ function Mission() {
         </Card>
     );
 }
-//End Task 3 Function
+
 class About extends Component {
-//Task 3 Constructor
-    constructor(props) {
-        super(props);
-        this.state = {
-            partners: PARTNERS
-        };
-    }
-//End Task 3 Constructor
+    
     static navigationOptions = {
         title: 'About Us'
-}
+}; 
 
 render() {
-    const { navigate } = this.props.navigation;
     const renderPartner = ({item}) => {
         return (
             <ListItem
-                title={item.name}
-                subtitle={item.description}
-                onPress={() => navigate('CampsiteInfo', { campsiteId: item.id })}
-                leftAvatar={{ source: require('./images/react-lake.jpg')}}
-            />
+                    title={item.name}
+                    subtitle={item.description}
+                    leftAvatar={{ source: {uri: baseUrl + item.image}}}
+                />
         );
-    };
-//End Render Partner Function:
+    }
+   
   return (
-      <ScrollView>
-          <Mission />//Mission Component
-          <Card title={"Community Partners"}>
-            <FlatList
-                data={this.state.partners}
-                renderItem={renderPartner}
-                keyExtractor={item => item.id.toString()}
-            />
-          </Card>
-
-      </ScrollView>
-      );
+            <ScrollView>
+                <Mission />
+                <Card title="Community Partners">
+                    <FlatList
+                        data={this.props.partners.partners} //The first partners refers to the entire part of the state that handles the partner's data including the isLoading and errMessage properties along with the partners arrays. The second partners is what actually refers to the partner's data array. 
+                        renderItem={renderPartner}
+                        keyExtractor={item => item.id.toString()}
+                    />
+                </Card>
+            </ScrollView>
+        );
     }
 }
 
-export default About;
-
-
+export default connect(mapStateToProps)(About);
