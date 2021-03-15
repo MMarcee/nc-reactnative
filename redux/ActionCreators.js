@@ -152,3 +152,26 @@ export const addFavorite = campsiteId => ({
     type: ActionTypes.ADD_FAVORITE,
     payload: campsiteId
 });
+
+//W2, task 3 thunked action creator with multiple parameters
+export const postComment = (campsiteId, rating, author, text) => dispatch => {
+    //W2 task 3 variable newComment inside postComment function
+    const newComment = {
+        campsiteId,
+        rating,
+        author,
+        text,
+        
+    };
+    newComment.date = new Date().toISOString();
+    //W2 task 3 setTimeout method to simulate waiting for a server response
+    setTimeout(() => {
+        dispatch(addComment(newComment));
+    }, 2000);
+};
+//W2 task 3 standard non-thunked action creator
+export const addComment = (newComment) => ({
+	type: ActionTypes.ADD_COMMENT,
+	payload: newComment,
+});
+
